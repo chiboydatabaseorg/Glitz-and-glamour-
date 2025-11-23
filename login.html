@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chiearn Hub - Login</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #b3d7ff, #e8f0ff, #ffffff);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 40px;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #003366;
+    }
+
+    .login-section {
+      max-width: 420px;
+      margin: 70px auto;
+      padding: 45px 35px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 0.7s ease forwards;
+      transform: translateY(10px);
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .login-section h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 28px;
+      color: #003366;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 13px 45px 13px 15px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border: 1.5px solid #aac7ff;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #4c9aff;
+      box-shadow: 0 0 8px rgba(76,154,255,0.4);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 14px;
+      color: #0077cc;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      background-color: #4aaaff;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      width: 48%;
+      color: white;
+      font-weight: 600;
+      transition: 0.25s ease;
+    }
+
+    .btn:hover {
+      background-color: #2e8eee;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .btn-full {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .error {
+      color: red;
+      font-size: 15px;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 20px;
+      opacity: 0;
+      transition: 0.3s ease;
+    }
+
+    .error.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Chiearn Hub Logo" style="height:40px; width:40px;">
+  <div class="logo">Chiearn Hub</div>
+</header>
+
+<section class="login-section">
+  <h1>Login</h1>
+
+  <div class="error" id="loginError"></div>
+
+  <form id="loginForm">
+
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Email" required>
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password" required>
+      <span class="toggle-password" onclick="togglePassword()">Show</span>
+    </div>
+
+    <div style="margin-top:20px; text-align:center;">
+      <button type="submit" class="btn">Login</button>
+      <button type="button" class="btn" onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
+
+    <button type="button" class="btn btn-full" onclick="window.location.href='index.html'">
+      Introduction
+    </button>
+
+  </form>
+</section>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+
+  // Show/Hide password
+  function togglePassword() {
+    const passwordField = document.getElementById("password");
+    const toggleText = document.querySelector(".toggle-password");
+
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      toggleText.textContent = "Hide";
+    } else {
+      passwordField.type = "password";
+      toggleText.textContent = "Show";
+    }
+  }
+
+  // Auto-focus on email
+  document.getElementById("email").focus();
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    loginError.classList.remove("show");
+
+    if(!email || !password){
+      showError("Please enter email and password");
+      return;
+    }
+
+    // Load users
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if(!user){
+      showError("Invalid email or password");
+      return;
+    }
+
+    // 🔥 SAVE LOGIN SESSION CORRECTLY
+    localStorage.setItem("currentUser", JSON.stringify({
+      email: user.email,
+      model: user.model
+    }));
+
+    // Role redirect
+    if (user.model === "Earner") {
+      window.location.href = "dashboard.html";
+    } 
+    else if (user.model === "Advertiser") {
+      window.location.href = "advertiser.html";
+    } 
+    else if (user.model === "Admin") {
+      window.location.href = "adminpanel.html";
+    } 
+    else {
+      showError("Invalid user role");
+    }
+  });
+
+  function showError(msg) {
+    loginError.textContent = msg;
+    loginError.classList.add("show");
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiearn Hub - Tasks</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #084dbf;
+        --background: #f4f7fa;
+        --text: #1d1d1d;
+        --white: #ffffff;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+    }
+
+    body {
+        background: var(--background);
+        animation: fadeIn 0.8s ease;
+    }
+
+    header {
+        background: var(--white);
+        padding: 14px 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 8px var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .logo img {
+        height: 35px;
+        margin-right: 10px;
+    }
+
+    .container {
+        padding: 25px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    h2 {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--text);
+        text-align: center;
+    }
+
+    .task-row {
+        display: grid;
+        grid-template-columns: 1fr 120px 110px;
+        padding: 15px 12px;
+        background: var(--white);
+        margin-bottom: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px var(--shadow);
+        transition: 0.25s;
+        cursor: pointer;
+    }
+
+    .task-row:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 14px var(--shadow);
+    }
+
+    .task-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .task-price {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--primary-dark);
+        text-align: center;
+    }
+
+    .perform-btn {
+        padding: 10px;
+        background: var(--primary);
+        color: white;
+        text-align: center;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s;
+        border: none;
+    }
+
+    .perform-btn:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+    }
+
+    .modal-overlay {
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.45);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .modal-box {
+        background: white;
+        width: 90%;
+        max-width: 400px;
+        margin: auto;
+        margin-top: 20%;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px var(--shadow);
+        animation: slideUp 0.5s ease;
+        text-align: center;
+    }
+
+    .modal-box h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .modal-box p {
+        color: #444;
+        margin-bottom: 25px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .modal-btn {
+        flex: 1;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .activate {
+        background: var(--primary);
+        color: white;
+    }
+
+    .activate:hover {
+        background: var(--primary-dark);
+    }
+
+    .cancel {
+        background: #ddd;
+        color: #333;
+    }
+
+    .cancel:hover {
+        background: #c5c5c5;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    @keyframes slideUp {
+        from {transform: translateY(50px); opacity: 0;}
+        to {transform: translateY(0); opacity: 1;}
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <img src="logo.png" alt=""> Chiearn Hub
+    </div>
+</header>
+
+<div class="container">
+    <h2>Available Tasks</h2>
+
+    <div id="taskList">
+        <div class="task-row">
+            <div class="task-title">Follow Instagram Page</div>
+            <div class="task-price">₦30</div>
+            <button class="perform-btn" onclick="performTask(1)">Perform</button>
+        </div>
+
+        <div class="task-row">
+            <div class="task-title">Join Telegram Channel</div>
+            <div class="task-price">₦20</div>
+            <button class="perform-btn" onclick="performTask(2)">Perform</button>
+        </div>
+
+        <div class="task-row">
+            <div class="task-title">Like & Comment on Post</div>
+            <div class="task-price">₦40</div>
+            <button class="perform-btn" onclick="performTask(3)">Perform</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Activation Modal -->
+<div id="activationModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>Account Not Activated</h3>
+        <p>Your account is not activated.<br>Click below to activate.</p>
+
+        <div class="modal-actions">
+            <button class="modal-btn activate" onclick="goActivate()">Activate Now</button>
+            <button class="modal-btn cancel" onclick="goDashboard()">Not Now</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // ================================================
+    //     CHECK USER ACTIVATION USING LOCAL STORAGE
+    // ================================================
+
+    window.onload = function () {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        if (!currentUser) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        // get the full user data
+        const user = users.find(u => u.email === currentUser.email);
+
+        if (!user) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        // CHECK ACTIVATION
+        if (user.activated === true) {
+            // Already activated → redirect automatically
+            window.location.href = "availabletask.html";
+        } else {
+            // Not activated → show modal
+            document.getElementById("activationModal").style.display = "block";
+        }
+    };
+
+    function goActivate() {
+        window.location.href = "validation.html";
+    }
+
+    function goDashboard() {
+        window.location.href = "dashboard.html";
+    }
+
+    function performTask(id) {
+        window.location.href = "taskdetails.html?id=" + id;
+    }
+</script>
+
+</body>
+</html>

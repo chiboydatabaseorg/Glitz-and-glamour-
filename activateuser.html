@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Activate User</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      animation: slideUp 0.6s ease-in-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .request-card {
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #eee;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-right: 10px;
+    }
+
+    .approve { background: #28a745; color: white; }
+    .reject { background: #dc3545; color: white; }
+
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Admin – User Activation Requests</h1>
+
+  <div class="container" id="requestContainer"></div>
+
+  <script>
+    const container = document.getElementById("requestContainer");
+    let requests = JSON.parse(localStorage.getItem("activationRequests")) || [];
+
+    function loadRequests() {
+      container.innerHTML = "";
+
+      if (requests.length === 0) {
+        container.innerHTML = `<h3 style="text-align:center;color:#666;">No activation requests found.</h3>`;
+        return;
+      }
+
+      requests.forEach((req, index) => {
+        const div = document.createElement("div");
+        div.className = "request-card";
+
+        div.innerHTML = `
+          <h3>New Activation Request</h3>
+          <p><strong>Email:</strong> ${req.email}</p>
+          <p><strong>Sender Name:</strong> ${req.senderName}</p>
+
+          <p><strong>Account Transfer To:</strong><br>
+            9162141283 – Opay – Chisom Nnonyelu Favour
+          </p>
+
+          ${req.image ? `<img src="${req.image}" alt="Proof">` : "<p>No image uploaded</p>"}
+
+          <button class="btn approve" onclick="approveUser('${req.email}', ${index})">Approve</button>
+          <button class="btn reject" onclick="rejectUser(${index})">Reject</button>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    function approveUser(email, index) {
+      let users = JSON.parse(localStorage.getItem("users")) || {};
+
+      if (users[email]) {
+        users[email].activated = true;
+      }
+
+      localStorage.setItem("users", JSON.stringify(users));
+
+      requests.splice(index, 1);
+      localStorage.setItem("activationRequests", JSON.stringify(requests));
+
+      alert("User activated successfully!");
+      loadRequests();
+    }
+
+    function rejectUser(index) {
+      requests.splice(index, 1);
+      localStorage.setItem("activationRequests", JSON.stringify(requests));
+
+      alert("Request rejected.");
+      loadRequests();
+    }
+
+    loadRequests();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chiearn Hub - User Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0d6efd;
+      --primary-dark: #084dbf;
+      --background: #f4f7fa;
+      --text: #1d1d1d;
+      --white: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--text);
+    }
+
+    /* ====================
+        HEADER
+    ===================== */
+    header {
+      background: var(--white);
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.3px;
+    }
+
+    .logo img {
+      height: 36px;
+      margin-right: 10px;
+    }
+
+    .icons {
+      display: flex;
+      gap: 18px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* ====================
+        SIDE MENU
+    ===================== */
+    .side-menu {
+      width: 0;
+      height: 100%;
+      background: var(--white);
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-x: hidden;
+      box-shadow: 2px 0 8px var(--shadow);
+      z-index: 200;
+      transition: 0.3s;
+      padding-top: 60px;
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 14px 25px;
+      font-size: 17px;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+      transition: 0.2s;
+    }
+
+    .side-menu a:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .side-menu .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      font-size: 32px;
+      cursor: pointer;
+      color: var(--primary-dark);
+    }
+
+    /* ====================
+        DASHBOARD CONTENT
+    ===================== */
+    .container {
+      padding: 20px;
+    }
+
+    .alert-success {
+      background: #d1f7db;
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #146c2e;
+      font-weight: 500;
+      border: 1px solid #9be6ac;
+    }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px var(--shadow);
+      animation: fadeIn 0.6s ease;
+    }
+
+    .balance-amount {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+
+    .balance-label {
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      background: var(--primary);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 10px;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.02);
+    }
+
+    /* Referral Section */
+    .referral {
+      background: var(--primary);
+      color: white;
+      padding: 20px;
+      border-radius: 14px;
+    }
+
+    .referral input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .referral small {
+      display: block;
+      margin-top: 10px;
+      color: #eaf5ff;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 550px) {
+      .logo {
+        font-size: 18px;
+      }
+      .icons { font-size: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="logo">
+      Chiearn Hub
+    </div>
+
+    <div class="icons">
+      <div onclick="window.open('notifications.html','_blank')">🔔</div>
+      <div onclick="openMenu()">☰</div>
+    </div>
+  </header>
+
+  <!-- SIDE MENU -->
+  <div id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="closeMenu()">&times;</span>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="withdraw.html">Withdraw</a>
+    <a href="history.html">Transaction History</a>
+    <a href="tutorial.html">Tutorial</a>
+    <a href="profile.html">My Profile</a>
+    <a href="support.html">Support</a>
+    <a href="login.html" style="color:red;">Logout</a>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="container">
+
+    <div class="alert-success">Login Successful! Welcome back.</div>
+
+    <div class="dashboard-grid">
+
+      <!-- BALANCE CARD -->
+      <div class="card">
+        <div class="balance-amount">₦0.00</div>
+        <div class="balance-label">Available Balance (NGN)</div>
+        <button class="btn" onclick="window.location.href='withdraw.html'">Withdraw Funds</button>
+        <button class="btn" onclick="window.location.href='tasks.html'">Perform Tasks</button>
+        <button class="btn" onclick="window.location.href='tutorial.html'">Watch Tutorial</button>
+      </div>
+
+      <!-- REFERRAL CARD -->
+      <div class="referral card">
+        <h3>Referral Program</h3>
+        <label>Your Referral Link:</label>
+        <input type="text" value="https://chiearnhub.com/ref/ABC123" id="ref-link" readonly>
+        <button class="btn" onclick="copyReferral()">Copy Link</button>
+        <small>
+          • Earn ₦500 when your referred Earner activates their account.<br>
+          • Earn 0.5% on first deposits from Advertisers you refer.
+        </small>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function openMenu() {
+      document.getElementById("sideMenu").style.width = "250px";
+    }
+
+    function closeMenu() {
+      document.getElementById("sideMenu").style.width = "0";
+    }
+
+    function copyReferral() {
+      let link = document.getElementById('ref-link').value;
+      navigator.clipboard.writeText(link);
+      alert("Referral Link Copied!");
+    }
+  </script>
+
+</body>
+</html>

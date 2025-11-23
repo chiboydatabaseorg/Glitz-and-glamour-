@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chiearn Hub - Support</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e8f0ff, #ffffff);
+            color: black;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            backdrop-filter: blur(10px);
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .main-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px;
+            background: #ffffffcc;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease;
+            text-align: center;
+        }
+        .main-section h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .main-section p {
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .btn {
+            padding: 12px 25px;
+            background-color: skyblue;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+            display: block;
+            width: 200px;
+            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            background-color: #74c7f5;
+        }
+        .social-icons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 28px;
+            text-decoration: none;
+            color: black;
+            transition: color 0.2s ease;
+        }
+        .social-icons a:hover {
+            color: skyblue;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 25px;
+            font-size: 15px;
+            opacity: 0.8;
+        }
+        .footer a {
+            margin: 0 15px;
+            color: black;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer a:hover {
+            color: skyblue;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="logo.png" alt="Chiearn Hub Logo" style="height:40px; width:40px; object-fit:contain;" />
+            <div class="logo">Chiearn Hub</div>
+        </div>
+    </header><section class="main-section">
+    <h1>Support</h1>
+    <p>If you have any questions, issues, or need assistance, our support team is here to help. Reach out through any of the channels below or via our social media handles.</p>
+
+    <div class="social-icons">
+        <a href="https://www.facebook.com/YourHandle" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://twitter.com/YourHandle" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/YourHandle" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/YourHandle" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://wa.me/YourNumber" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://t.me/YourHandle1" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://t.me/YourHandle2" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="tel:+1234567890" target="_blank"><i class="fas fa-phone"></i></a>
+    </div>
+
+    <div style="margin-top:30px;">
+        <button class="btn" onclick="window.location.href='signup.html'">Create Account</button>
+        <button class="btn" onclick="window.location.href='login.html'">Login</button>
+        <button class="btn" onclick="window.location.href='index.html'">Introduction</button>
+    </div>
+</section>
+
+<footer class="footer">
+    <a href="terms.html" target="_blank">Terms</a>
+    <a href="policy.html" target="_blank">Policy</a>
+    <a href="support.html" target="_blank">Support</a>
+</footer>
+
+</body>
+</html>

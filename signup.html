@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chiearn Hub - Sign Up</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #e8f0ff, #ffffff);
+      color: #000;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 40px;
+    }
+
+    .logo-text {
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    header img {
+      height: 42px;
+      width: 42px;
+      object-fit: contain;
+    }
+
+    /* SIGNUP CARD */
+    .signup-section {
+      max-width: 440px;
+      margin: 70px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .signup-section h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    /* INPUTS */
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #bfc7d1;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: skyblue;
+      box-shadow: 0 0 5px rgba(135, 206, 250, 0.5);
+    }
+
+    .model-label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: -6px;
+      margin-bottom: 5px;
+    }
+
+    /* BUTTONS */
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 25px;
+      justify-content: center;
+    }
+
+    .btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 20px;
+      background-color: skyblue;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      background-color: #74c7f5;
+    }
+
+    /* ANIMATION */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .signup-section {
+        margin: 40px 20px;
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <img src="logo.png" alt="Chiearn Hub Logo" />
+    <div class="logo-text">Chiearn Hub</div>
+  </header>
+
+  <!-- SIGNUP CARD -->
+  <section class="signup-section">
+    <h1>Create Account</h1>
+
+    <form id="signupForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <div class="error" id="emailError"></div>
+
+      <input type="text" id="phone" placeholder="Phone Number" required />
+      <div class="error" id="phoneError"></div>
+
+      <input type="text" id="referral" placeholder="Referral Code (Optional)" />
+
+      <input type="password" id="password" placeholder="Password" required />
+      <div class="error" id="passwordError"></div>
+
+      <input type="password" id="repeatPassword" placeholder="Repeat Password" required />
+      <div class="error" id="repeatPasswordError"></div>
+
+      <label class="model-label">Select Account Model:</label>
+      <select id="model" required>
+        <option value="">-- Choose Model --</option>
+        <option value="Earner">Earner</option>
+        <option value="Advertiser">Advertiser</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <div class="error" id="modelError"></div>
+
+      <!-- BUTTONS -->
+      <div class="btn-container">
+        <button type="submit" class="btn">Sign Up</button>
+        <button type="button" class="btn" onclick="window.location.href='login.html'">Login</button>
+        <button type="button" class="btn" onclick="window.location.href='index.html'">Introduction</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    const form = document.getElementById("signupForm");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const referral = document.getElementById("referral").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const repeatPassword = document.getElementById("repeatPassword").value.trim();
+      const model = document.getElementById("model").value.trim();
+
+      if (!email || !phone || !password || !repeatPassword || !model) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+      }
+
+      if (password !== repeatPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      if (users.some((user) => user.email === email)) {
+        alert("Email already exists!");
+        return;
+      }
+
+      if (users.some((user) => user.phone === phone)) {
+        alert("Phone number already exists!");
+        return;
+      }
+
+      users.push({
+        email,
+        phone,
+        referral,
+        password,
+        model,
+        created_at: new Date().toISOString(),
+      });
+
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Signup successful! Redirecting...");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
